@@ -83,7 +83,7 @@ def check_message(message):
         # Отправляем сообщение с клавиатурой
         bot.send_message(message.chat.id,
                          f"Привет всем! Я - бот для игры в секретного Гитлера. Уникальный кот вашей игры - {max(registered_users)}. "
-                         f"\n Все пользователи, желающие сыграть, напишите мне в личные сообщения команду \register"
+                         f"\n Все пользователи, желающие сыграть, напишите мне в личные сообщения команду register"
                          f"\n Когда все желающие играть, будут зарегестрированы, напишите: играть, и мы начнем игру",
                          reply_markup=markup)
 
@@ -355,7 +355,7 @@ def start_game(dict_of_group, president):
         # останавливаю работу программы до его ответа
         while waiting_for_answer == 1:
             pass
-
+        # для единственности выполнения особенных условий
         dict_of_group['last_card'] = waiting_for_answer
 
         # поставить карту на поле
@@ -369,13 +369,13 @@ def start_game(dict_of_group, president):
             win(dict_of_group, 'fascist')
             dict_of_group = {}
 
-        elif onboard_fascist == 2:
+        elif onboard_fascist == 2 and dict_of_group['last_card'] == 'fascist':
             proverka_igroka(dict_of_group, president)
 
-        elif onboard_fascist == 3:
+        elif onboard_fascist == 3 and dict_of_group['last_card'] == 'fascist':
             dict_of_group = vibor(dict_of_group, president)
 
-        elif onboard_fascist == 4 or onboard_fascist == 5:
+        elif (onboard_fascist == 4 or onboard_fascist == 5) and dict_of_group['last_card'] == 'fascist':
             died = liquidation(dict_of_group, president)
             print(died)
             if died == 'gitler':
@@ -389,6 +389,12 @@ def start_game(dict_of_group, president):
         elif onboard_liberal == 5:
             win(dict_of_group, 'liberal')
             dict_of_group = {}
+
+        bot.send_message(dict_of_group['group_id'],
+                         f'Теперь вы можете обсудить последствия принятых законов. cледующий президент уже назначен, '
+                         f'он может выбрать следующего канцлера, после обсуждений \n'
+                         f'Сейчас выложены {onboard_fascist} фашистких карт и {onboard_liberal} либеральных')
+
 
 
 
@@ -482,8 +488,8 @@ def send_poll(GROUP_ID, stroka):
         is_anonymous=False
     )
 
-    # Запускаем таймер для сбора результатов через 30 секунд
-    Timer(5.0, collect_poll_results, [poll_message.chat.id, poll_message.message_id]).start()
+    # Запускаем таймер для сбора результатов через 10 секунд
+    Timer(10.0, collect_poll_results, [poll_message.chat.id, poll_message.message_id]).start()
 
 
 # Функция для получения результатов опроса
