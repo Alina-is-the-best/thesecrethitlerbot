@@ -1,7 +1,7 @@
 import telebot
 import random
 from threading import Timer
-#rrrr
+
 bot = telebot.TeleBot('7883139018:AAGaMHDoRfVT6K2V7FaGQwETVxrRlP2Wu2M')
 user_dict = {}
 
@@ -82,7 +82,7 @@ def check_message(message):
 
         # Отправляем сообщение с клавиатурой
         bot.send_message(message.chat.id,
-                         f"Привет всем! Я - бот для игры в мафию. Уникальный кот вашей игры - {max(registered_users)}. "
+                         f"Привет всем! Я - бот для игры в секретного Гитлера. Уникальный кот вашей игры - {max(registered_users)}. "
                          f"\n Все пользователи, желающие сыграть, напишите мне в личные сообщения команду \register"
                          f"\n Когда все желающие играть, будут зарегестрированы, напишите: играть, и мы начнем игру",
                          reply_markup=markup)
@@ -125,7 +125,7 @@ def send_private_messages(chat_title):
                                                                      callback_data="гитлер")
                         markup.add(button1)
                         # Отправляем сообщение с кнопками
-                        bot.send_message(user_id, "Привет! Твоя роль: гитлер", reply_markup=markup)
+                        bot.send_message(user_id, "Привет! Твоя роль: Гитлер", reply_markup=markup)
 
                 # выбор первых президента и канцлера
                 registered_users[game_code] = first_raspred(registered_users[game_code])
@@ -134,7 +134,7 @@ def send_private_messages(chat_title):
 
                 # отправка сообщения в общую группу, нде идет разглашение того, кто является президентом и канцлером
                 bot.send_message(registered_users[game_code]['group_id'],
-                                 f"Вот типо начали, your first president: "
+                                 f"Игра начинается, your first president: "
                                  f"{registered_users[game_code]['names'][president]}")
                 # запуск основной игры
                 start_game(registered_users[game_code], president)
@@ -147,7 +147,8 @@ def send_private_messages(chat_title):
 def callback_greet(call):
     bot.answer_callback_query(
         call.id,
-        text='Ты тут злой', show_alert=True)
+        text='''Твоя роль: фашист. Победа будет твоей, если: на доске будет выложено шесть Фашистских или после трёх принятых законов Гитлер станет канцлером. 
+        Победа не будет твоей, если: на доске будет выложено пять Либеральных законов или Гитлер будет убит.''', show_alert=True)
 
 
 # нажата кнопка, я либерал, но что это
@@ -155,7 +156,8 @@ def callback_greet(call):
 def callback_greet(call):
     bot.answer_callback_query(
         call.id,
-        text='Борешься зо злом', show_alert=True)
+        text='''Твоя роль: либерал. Победа будет твоей, на доске будет выложено пять Либеральных законов или Гитлер будет убит. 
+        Победа не будет твоей, если: на доске будет выложено шесть Фашистских или после трёх принятых законов Гитлер станет канцлером''', show_alert=True)
 
 
 # нажата кнопка, я гитлер, но что это
@@ -163,7 +165,8 @@ def callback_greet(call):
 def callback_greet(call):
     bot.answer_callback_query(
         call.id,
-        text='Ты тут вообще самый злой', show_alert=True)
+        text='''Твоя роль: фашист. Победа будет твоей, если: на доске будет выложено шесть Фашистских или после трёх принятых законов ты станешь канцлером. 
+        Победа не будет твоей, если: на доске будет выложено пять Либеральных законов или ты будешь убит.''', show_alert=True)
 
 
 # нажата кнопка проверки игрока
@@ -209,7 +212,7 @@ def callback_greet(call):
         bot.delete_message(user_id, user_message_ids[user_id])
         del user_message_ids[user_id]
 
-    bot.send_message(call.message.chat.id, f'Вашим канцлерром будет назначен: {chancellor}')
+    bot.send_message(call.message.chat.id, f'Вашим канцлером будет назначен: {chancellor}')
     waiting_for_answer = 0
 
 
