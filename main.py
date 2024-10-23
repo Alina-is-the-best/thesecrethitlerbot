@@ -225,7 +225,7 @@ def callback_greet(call):
         bot.delete_message(user_id, user_message_ids[user_id])
         del user_message_ids[user_id]
 
-    bot.send_message(call.message.chat.id, f'You chose: {call.data}')
+    bot.send_message(call.message.chat.id, f'Вы выбрали: {call.data}')
     waiting_for_answer = call.data
 
 
@@ -291,8 +291,8 @@ def start_game(dict_of_group, president):
                 pass
 
             waiting_for_answer = 1
-            send_poll(dict_of_group['group_id'], f"President: {dict_of_group['names'][president]}, "
-                                                 f"Chancellor: {dict_of_group['names'][chancellor]}")
+            send_poll(dict_of_group['group_id'], f"Президент: {dict_of_group['names'][president]}, "
+                                                 f"Канцлер: {dict_of_group['names'][chancellor]}")
             while waiting_for_answer == 1:
                 pass
 
@@ -347,7 +347,7 @@ def start_game(dict_of_group, president):
         print('мы почти попали обратно')
         sent_message = bot.send_message(chancellor,
                                         f"Канцлер у вас на руках такие законы:: {cards_to_choose_2}"
-                                        f", выберите тот, который вы исключаете", reply_markup=markup)
+                                        f", выберите тот, от которого вы хотите избавиться", reply_markup=markup)
 
         # Сохраняем ID отправленного сообщения в памяти пользователя
         user_message_ids[chancellor] = sent_message.message_id
@@ -414,7 +414,7 @@ def proverka_igroka(dict_of_group, president):
     while waiting_for_answer == 1:
         pass
 
-    bot.send_message(president, f"Player {dict_of_group['names'][check_player]} is {dict_of_group['id'][check_player]}")
+    bot.send_message(president, f"Игрок {dict_of_group['names'][check_player]} - {dict_of_group['id'][check_player]}")
 
 
 def vibor(dict_of_group, president):
@@ -435,7 +435,7 @@ def vibor(dict_of_group, president):
     while waiting_for_answer == 1:
         pass
 
-    bot.send_message(president, f"Player {dict_of_group['names'][check_player]} is new president")
+    bot.send_message(president, f"Игрок {dict_of_group['names'][check_player]} новый президент")
     ind = dict_of_group['och'].index(check_player)
     dict_of_group['och'] = dict_of_group['och'][ind:] + dict_of_group['och'][:ind]
     return dict_of_group
@@ -459,7 +459,7 @@ def liquidation(dict_of_group, president):
     while waiting_for_answer == 1:
         pass
 
-    bot.send_message(president, f"Player {dict_of_group['names'][kill_player]} was killed")
+    bot.send_message(president, f"Игрок {dict_of_group['names'][kill_player]} был убит")
     died = dict_of_group['id'][kill_player]
 
     # удаление убитого из всех списков
