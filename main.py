@@ -19,7 +19,7 @@ user_message_ids = {}
 # первое взаимодействие с ботом
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, "Привет, я бот для игры в мафию! Используйте команду "
+    bot.reply_to(message, "Привет, я бот для игры в секретного Гитлера! Используйте команду "
                           "/register, чтобы зарегистрироваться для игры.")
 
 
@@ -108,11 +108,11 @@ def send_private_messages(chat_title):
                         bot.send_message(user_id, "Привет! Твоя роль: либерал", reply_markup=markup)
                     elif registered_users[game_code]['id'][user_id] == 'fascist':
                         markup = telebot.types.InlineKeyboardMarkup()
-                        button1 = telebot.types.InlineKeyboardButton("фашистик",
-                                                                     callback_data="фашистик")
+                        button1 = telebot.types.InlineKeyboardButton("фашист",
+                                                                     callback_data="фашист")
                         markup.add(button1)
                         # Отправляем сообщение с кнопками
-                        bot.send_message(user_id, "Привет! Твоя роль: фашистик", reply_markup=markup)
+                        bot.send_message(user_id, "Привет! Твоя роль: фашист", reply_markup=markup)
                         # отправка ролей всех игроков
                         for i in registered_users[game_code]['id']:
                             print(i)
@@ -121,8 +121,8 @@ def send_private_messages(chat_title):
 
                     elif registered_users[game_code]['id'][user_id] == 'gitler':
                         markup = telebot.types.InlineKeyboardMarkup()
-                        button1 = telebot.types.InlineKeyboardButton("гитлер",
-                                                                     callback_data="гитлер")
+                        button1 = telebot.types.InlineKeyboardButton("Гитлер",
+                                                                     callback_data="Гитлер")
                         markup.add(button1)
                         # Отправляем сообщение с кнопками
                         bot.send_message(user_id, "Привет! Твоя роль: Гитлер", reply_markup=markup)
@@ -134,7 +134,7 @@ def send_private_messages(chat_title):
 
                 # отправка сообщения в общую группу, нде идет разглашение того, кто является президентом и канцлером
                 bot.send_message(registered_users[game_code]['group_id'],
-                                 f"Игра начинается, your first president: "
+                                 f"Игра начинается, ваш первый президент: "
                                  f"{registered_users[game_code]['names'][president]}")
                 # запуск основной игры
                 start_game(registered_users[game_code], president)
@@ -143,11 +143,11 @@ def send_private_messages(chat_title):
 
 
 # нажата кнопка, я фашист, но что это
-@bot.callback_query_handler(func=lambda call: call.data == "фашистик")
+@bot.callback_query_handler(func=lambda call: call.data == "фашист")
 def callback_greet(call):
     bot.answer_callback_query(
         call.id,
-        text='''Твоя роль: фашист. Победа будет твоей, если: на доске будет выложено шесть Фашистских или после трёх принятых законов Гитлер станет канцлером. Победа не будет твоей, если: на доске будет выложено пять Либеральных законов или Гитлер будет убит.''', show_alert=True)
+        text='''Твоя роль: фашист. Победа будет твоей, если: на доске будет выложено шесть Фашистских законов или после трёх принятых законов Гитлер станет канцлером. Победа не будет твоей, если: на доске будет выложено пять Либеральных законов или Гитлер будет убит.''', show_alert=True)
 
 
 # нажата кнопка, я либерал, но что это
@@ -155,15 +155,15 @@ def callback_greet(call):
 def callback_greet(call):
     bot.answer_callback_query(
         call.id,
-        text='''Твоя роль: либерал. Победа будет твоей, на доске будет выложено пять Либеральных законов или Гитлер будет убит. Победа не будет твоей, если: на доске будет выложено шесть Фашистских или после трёх принятых законов Гитлер станет канцлером''', show_alert=True)
+        text='''Твоя роль: либерал. Победа будет твоей, на доске будет выложено пять Либеральных законов или Гитлер будет убит. Победа не будет твоей, если: на доске будет выложено шесть Фашистских законов или после трёх принятых законов Гитлер станет канцлером''', show_alert=True)
 
 
-# нажата кнопка, я гитлер, но что это
-@bot.callback_query_handler(func=lambda call: call.data == "гитлер")
+# нажата кнопка, я Гитлер, но что это
+@bot.callback_query_handler(func=lambda call: call.data == "Гитлер")
 def callback_greet(call):
     bot.answer_callback_query(
         call.id,
-        text='''Твоя роль: фашист. Победа будет твоей, если: на доске будет выложено шесть Фашистских или после трёх принятых законов ты станешь канцлером. Победа не будет твоей, если: на доске будет выложено пять Либеральных законов или ты будешь убит.''', show_alert=True)
+        text='''Твоя роль: фашист. Победа будет твоей, если: на доске будет выложено шесть Фашистских законов ли после трёх принятых законов ты станешь канцлером. Победа не будет твоей, если: на доске будет выложено пять Либеральных законов или ты будешь убит.''', show_alert=True)
 
 
 # нажата кнопка проверки игрока
@@ -281,7 +281,7 @@ def start_game(dict_of_group, president):
 
             waiting_for_answer = 1
             sent_message = bot.send_message(president,
-                                            f"okay, mister president, you can choose the chancellor",
+                                            f"Президент, теперь вы можете выбрать канцлера",
                                             reply_markup=markup)
 
             # Сохраняем ID отправленного сообщения в памяти пользователя
@@ -319,8 +319,8 @@ def start_game(dict_of_group, president):
         # Отправляем сообщение с клавиатурой
         waiting_for_answer = 1
         sent_message = bot.send_message(president,
-                                        f"okay, mister president: you have cards: {cards_to_choose}"
-                                        f", выберите карту, от которой хотите избавиться", reply_markup=markup)
+                                        f"Президент, у вас есть такие законыs: {cards_to_choose}"
+                                        f", Выберите закон, от которого хотите избавиться", reply_markup=markup)
 
         # Сохраняем ID отправленного сообщения в памяти пользователя
         user_message_ids[president] = sent_message.message_id
@@ -346,8 +346,8 @@ def start_game(dict_of_group, president):
         waiting_for_answer = 1
         print('мы почти попали обратно')
         sent_message = bot.send_message(chancellor,
-                                        f"okay, mister chancellor: you have cards: {cards_to_choose_2}"
-                                        f", выберите одну", reply_markup=markup)
+                                        f"Канцлер у вас на руках такие законы:: {cards_to_choose_2}"
+                                        f", выберите тот, который вы исключаете", reply_markup=markup)
 
         # Сохраняем ID отправленного сообщения в памяти пользователя
         user_message_ids[chancellor] = sent_message.message_id
@@ -406,7 +406,7 @@ def proverka_igroka(dict_of_group, president):
     markup.add(*kostl)
     waiting_for_answer = 1
     sent_message = bot.send_message(president,
-                                    f"okay, mister president, you can check one player's role", reply_markup=markup)
+                                    f"Сейчас вы можете проверить сторону, которой принадлежит игрок.", reply_markup=markup)
 
     # Сохраняем ID отправленного сообщения в памяти пользователя
     user_message_ids[president] = sent_message.message_id
@@ -427,7 +427,7 @@ def vibor(dict_of_group, president):
     markup.add(*kostl)
     waiting_for_answer = 1
     sent_message = bot.send_message(president,
-                                    f"okay, mister president, you can choose next president", reply_markup=markup)
+                                    f"Теперь вы можете выбрать следующего президента", reply_markup=markup)
 
     # Сохраняем ID отправленного сообщения в памяти пользователя
     user_message_ids[president] = sent_message.message_id
@@ -451,7 +451,7 @@ def liquidation(dict_of_group, president):
     markup.add(*kostl)
     waiting_for_answer = 1
     sent_message = bot.send_message(president,
-                                    f"okay, mister president, you can kill one player", reply_markup=markup)
+                                    f"Теперь вы можете выбрать кого убьете", reply_markup=markup)
 
     # Сохраняем ID отправленного сообщения в памяти пользователя
     user_message_ids[president] = sent_message.message_id
@@ -468,7 +468,7 @@ def liquidation(dict_of_group, president):
     dict_of_group['och'].remove(kill_player)
     print(dict_of_group)
 
-    bot.send_message(kill_player, f"You was killed")
+    bot.send_message(kill_player, f"Вы были убиты")
 
     return died
 
@@ -493,7 +493,7 @@ def collect_poll_results(chat_id, message_id):
 
     # Подготовка и отправка результатов
     if poll_results.options[0].voter_count > poll_results.options[1].voter_count:
-        results_text = f'President and chancellor chosen'
+        results_text = f'Президент и канцлер были выбраны'
         answer = 1
     else:
         results_text = f'('
