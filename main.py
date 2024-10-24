@@ -128,9 +128,12 @@ def send_private_messages(chat_title):
 
                     elif registered_users[game_code]['id'][user_id] == 'gitler':
                         markup = telebot.types.InlineKeyboardMarkup()
-                        button1 = telebot.types.InlineKeyboardButton("Гитлер",
-                                                                     callback_data="Гитлер")
+                        button1 = telebot.types.InlineKeyboardButton("Выиграешь, если",
+                                                                     callback_data="Гитлерв")
+                        button2 = telebot.types.InlineKeyboardButton("Проиграешь, если",
+                                                                     callback_data="Гитлерп")
                         markup.add(button1)
+                        markup.add(button2)
                         # Отправляем сообщение с кнопками
                         bot.send_message(user_id, "Привет! Твоя роль: Гитлер", reply_markup=markup)
 
@@ -182,13 +185,18 @@ def callback_greet(call):
         'после трёх принятых законов Гитлер станет канцлером', show_alert=True)
 
 # нажата кнопка, я Гитлер, но что это
-@bot.callback_query_handler(func=lambda call: call.data == "Гитлер")
+@bot.callback_query_handler(func=lambda call: call.data == "Гитлерв")
 def callback_greet(call):
     bot.answer_callback_query(
         call.id,
-        text='Твоя роль: фашист. Победа будет твоей, если: на доске будет выложено шесть Фашистских законов ли '
-             'после трёх принятых законов ты станешь канцлером. Победа не будет твоей, если: на доске будет выложено '
-             'пять Либеральных законов или ты будешь убит.', show_alert=True)
+        text='Выиграешь, если: на доске будет выложено шесть фашистских законов или после '
+             'трёх принятых фашистких законов ты станешь канцлером.', show_alert=True)
+@bot.callback_query_handler(func=lambda call: call.data == "Гитлерп")
+def callback_greet(call):
+    bot.answer_callback_query(
+        call.id,
+        text='Проиграешь, если: на доске будет выложено пять '
+             'либеральных законов или ты будешь убит.', show_alert=True)
 
 
 # нажата кнопка проверки игрока
@@ -325,7 +333,7 @@ def start_game(dict_of_group, president):
             markup = telebot.types.InlineKeyboardMarkup(row_width=1)
             kostl = []
             for i in dict_of_group['och']:
-                if i != president:
+                if i != president or len(dict_of_group['och']) == 1:
                     kostl.append(telebot.types.InlineKeyboardButton(dict_of_group['names'][i],
                                                                     callback_data='id' + str(i)))
 
@@ -465,7 +473,7 @@ def start_game(dict_of_group, president):
                          f'Следующий президент уже назначен, он может выбрать следующего канцлера, после обсуждений \n')
 
 
-def win(dict_of_group, who: str):
+def win(dict_of_group, who):
     bot.send_message(dict_of_group['group_id'], f"{who} won")
 
 
@@ -474,7 +482,7 @@ def proverka_igroka(dict_of_group, president):
     markup = telebot.types.InlineKeyboardMarkup(row_width=1)
     kostl = []
     for i in dict_of_group['och']:
-        if i != president:
+        if i != president or len(dict_of_group['och']) == 1:
             kostl.append(telebot.types.InlineKeyboardButton(dict_of_group['names'][i], callback_data='di' + str(i)))
 
     markup.add(*kostl)
@@ -496,7 +504,7 @@ def vibor(dict_of_group, president):
     markup = telebot.types.InlineKeyboardMarkup(row_width=1)
     kostl = []
     for i in dict_of_group['och']:
-        if i != president:
+        if i != president or len(dict_of_group['och']) == 1:
             kostl.append(telebot.types.InlineKeyboardButton(dict_of_group['names'][i], callback_data='di' + str(i)))
 
     markup.add(*kostl)
@@ -521,7 +529,7 @@ def liquidation(dict_of_group, president):
     markup = telebot.types.InlineKeyboardMarkup(row_width=1)
     kostl = []
     for i in dict_of_group['och']:
-        if i != president:
+        if i != president or len(dict_of_group['och']) == 1:
             kostl.append(telebot.types.InlineKeyboardButton(dict_of_group['names'][i], callback_data='ki' + str(i)))
 
     markup.add(*kostl)
@@ -606,7 +614,7 @@ class role_for_everyone:
         elif self.count_of_players == 2:
             self.roles = ['fascist', 'liberal']
         elif self.count_of_players == 1:
-            self.roles = ['liberal']
+            self.roles = ['gitler']
         return self.roles
 
     def role_for_all(self):
