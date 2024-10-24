@@ -325,7 +325,9 @@ def start_game(dict_of_group, president):
             markup = telebot.types.InlineKeyboardMarkup(row_width=1)
             kostl = []
             for i in dict_of_group['och']:
-                kostl.append(telebot.types.InlineKeyboardButton(dict_of_group['names'][i], callback_data='id' + str(i)))
+                if i != president:
+                    kostl.append(telebot.types.InlineKeyboardButton(dict_of_group['names'][i],
+                                                                    callback_data='id' + str(i)))
 
             markup.add(*kostl)
 
@@ -472,7 +474,8 @@ def proverka_igroka(dict_of_group, president):
     markup = telebot.types.InlineKeyboardMarkup(row_width=1)
     kostl = []
     for i in dict_of_group['och']:
-        kostl.append(telebot.types.InlineKeyboardButton(dict_of_group['names'][i], callback_data='di' + str(i)))
+        if i != president:
+            kostl.append(telebot.types.InlineKeyboardButton(dict_of_group['names'][i], callback_data='di' + str(i)))
 
     markup.add(*kostl)
     waiting_for_answer = 1
@@ -493,7 +496,8 @@ def vibor(dict_of_group, president):
     markup = telebot.types.InlineKeyboardMarkup(row_width=1)
     kostl = []
     for i in dict_of_group['och']:
-        kostl.append(telebot.types.InlineKeyboardButton(dict_of_group['names'][i], callback_data='di' + str(i)))
+        if i != president:
+            kostl.append(telebot.types.InlineKeyboardButton(dict_of_group['names'][i], callback_data='di' + str(i)))
 
     markup.add(*kostl)
     waiting_for_answer = 1
@@ -517,7 +521,8 @@ def liquidation(dict_of_group, president):
     markup = telebot.types.InlineKeyboardMarkup(row_width=1)
     kostl = []
     for i in dict_of_group['och']:
-        kostl.append(telebot.types.InlineKeyboardButton(dict_of_group['names'][i], callback_data='ki' + str(i)))
+        if i != president:
+            kostl.append(telebot.types.InlineKeyboardButton(dict_of_group['names'][i], callback_data='ki' + str(i)))
 
     markup.add(*kostl)
     waiting_for_answer = 1
