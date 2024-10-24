@@ -646,6 +646,7 @@ class Cards:
 class CardsOnBoard:
     # два списка: либеральные карты на столе, фашистские карты на столе
     def __init__(self):
+
         self.onboard_liberal = 0
         self.onboard_fascist = 0
 
