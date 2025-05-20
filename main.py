@@ -19,7 +19,7 @@ user_message_ids = {}
 # первое взаимодействие с ботом
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, "Привет, я бот для игры в секретного Гитлера! Используйте команду "
+    bot.reply_to(message, "Привет, я бот для игры в тайного Пестеля! Используйте команду "
                           "/register, чтобы зарегистрироваться для игры.")
 
 
@@ -82,7 +82,7 @@ def check_message(message):
 
         # Отправляем сообщение с клавиатурой
         bot.send_message(message.chat.id,
-                         f"Привет всем! Я - бот для игры в секретного Гитлера. \n"
+                         f"Привет всем! Я - бот для игры в тайного Пестеля. \n"
                          f"Все пользователи, желающие сыграть, должны написать мне в личные сообщения команду register"
                          f"и уникальный код вашей игры - {max(registered_users)}. "
                          f"\n Когда все желающие играть, будут зарегистрированы на игру, напишите в эту группу: играть",
@@ -100,42 +100,42 @@ def send_private_messages(chat_title):
 
                 for user_id in registered_users[game_code]['id']:
                     print(user_id, registered_users[game_code]['id'][user_id])
-                    if registered_users[game_code]['id'][user_id] == 'liberal':
+                    if registered_users[game_code]['id'][user_id] == 'imperial':
                         markup = telebot.types.InlineKeyboardMarkup()
                         button1 = telebot.types.InlineKeyboardButton("Выиграешь, если...",
-                                                                     callback_data="либералв")
+                                                                     callback_data="имперецв")
                         button2 = telebot.types.InlineKeyboardButton("Проиграешь, если...",
-                                                                     callback_data="либералп")
+                                                                     callback_data="имперецп")
                         markup.add(button1)
                         markup.add(button2)
                         # Отправляем сообщение с кнопками
-                        bot.send_message(user_id, "Привет! Твоя роль: либерал", reply_markup=markup)
-                    elif registered_users[game_code]['id'][user_id] == 'fascist':
+                        bot.send_message(user_id, "Привет! Твоя роль: имперец", reply_markup=markup)
+                    elif registered_users[game_code]['id'][user_id] == 'decembrist':
                         markup = telebot.types.InlineKeyboardMarkup()
                         button1 = telebot.types.InlineKeyboardButton("Выиграешь, если...",
-                                                                     callback_data="фашиств")
+                                                                     callback_data="декабриств")
                         button2 = telebot.types.InlineKeyboardButton("Проиграешь, если...",
-                                                                     callback_data="фашистп")
+                                                                     callback_data="декабристп")
                         markup.add(button1)
                         markup.add(button2)
                         # Отправляем сообщение с кнопками
-                        bot.send_message(user_id, "Привет! Твоя роль: фашист", reply_markup=markup)
+                        bot.send_message(user_id, "Привет! Твоя роль:декабрист", reply_markup=markup)
                         # отправка ролей всех игроков
                         for i in registered_users[game_code]['id']:
                             print(i)
                             bot.send_message(user_id,
                                              f"{registered_users[game_code]['names'][i]}: {registered_users[game_code]['id'][i]}")
 
-                    elif registered_users[game_code]['id'][user_id] == 'gitler':
+                    elif registered_users[game_code]['id'][user_id] == 'pestel':
                         markup = telebot.types.InlineKeyboardMarkup()
                         button1 = telebot.types.InlineKeyboardButton("Выиграешь, если",
-                                                                     callback_data="Гитлерв")
+                                                                     callback_data="Пестельв")
                         button2 = telebot.types.InlineKeyboardButton("Проиграешь, если",
-                                                                     callback_data="Гитлерп")
+                                                                     callback_data="Пестельп")
                         markup.add(button1)
                         markup.add(button2)
                         # Отправляем сообщение с кнопками
-                        bot.send_message(user_id, "Привет! Твоя роль: Гитлер", reply_markup=markup)
+                        bot.send_message(user_id, "Привет! Твоя роль: Пестельр", reply_markup=markup)
 
                 # выбор первых президента и канцлера
                 registered_users[game_code] = first_raspred(registered_users[game_code])
@@ -152,51 +152,51 @@ def send_private_messages(chat_title):
                 print(f"Ошибка: {e}")
 
 
-# нажата кнопка, я фашист, но что это
-@bot.callback_query_handler(func=lambda call: call.data == "фашиств")
+# нажата кнопка, я декабрист, но что это
+@bot.callback_query_handler(func=lambda call: call.data == "декабриств")
 def callback_greet(call):
     bot.answer_callback_query(
         call.id,
-        text='Выиграешь, если: на доске будет выложено шесть фашистских законов или после '
-             'трёх принятых законов Гитлер станет канцлером.', show_alert=True)
+        text='Выиграешь, если: на доске будет выложено шесть Декабристских законов или после '
+             'трёх принятых законов Пестель станет канцлером.', show_alert=True)
 
 
-@bot.callback_query_handler(func=lambda call: call.data == "фашистп")
-def callback_greet(call):
-    bot.answer_callback_query(
-        call.id,
-        text='Проиграешь, если: на доске будет выложено пять '
-             'либеральных законов или Гитлер будет убит.', show_alert=True)
-
-
-# нажата кнопка, я либерал, но что это
-@bot.callback_query_handler(func=lambda call: call.data == "либералв")
-def callback_greet(call):
-    bot.answer_callback_query(
-        call.id,
-        text='Выиграешь, если: на доске будет выложено пять Либеральных законов или '
-        'Гитлер будет убит.', show_alert=True)
-
-@bot.callback_query_handler(func=lambda call: call.data == "либералп")
-def callback_greet(call):
-    bot.answer_callback_query(
-        call.id,
-        text='Проиграешь, если: на доске будет выложено шесть Фашистских законов или '
-        'после трёх принятых законов Гитлер станет канцлером', show_alert=True)
-
-# нажата кнопка, я Гитлер, но что это
-@bot.callback_query_handler(func=lambda call: call.data == "Гитлерв")
-def callback_greet(call):
-    bot.answer_callback_query(
-        call.id,
-        text='Выиграешь, если: на доске будет выложено шесть фашистских законов или после '
-             'трёх принятых фашистких законов ты станешь канцлером.', show_alert=True)
-@bot.callback_query_handler(func=lambda call: call.data == "Гитлерп")
+@bot.callback_query_handler(func=lambda call: call.data == "декабристп")
 def callback_greet(call):
     bot.answer_callback_query(
         call.id,
         text='Проиграешь, если: на доске будет выложено пять '
-             'либеральных законов или ты будешь убит.', show_alert=True)
+             'Имперских законов или Пестель будет убит.', show_alert=True)
+
+
+# нажата кнопка, я имперец, но что это
+@bot.callback_query_handler(func=lambda call: call.data == "имперецв")
+def callback_greet(call):
+    bot.answer_callback_query(
+        call.id,
+        text='Выиграешь, если: на доске будет выложено пять Имперских законов или '
+        'Пестель будет убит.', show_alert=True)
+
+@bot.callback_query_handler(func=lambda call: call.data == "имперецп")
+def callback_greet(call):
+    bot.answer_callback_query(
+        call.id,
+        text='Проиграешь, если: на доске будет выложено шесть Декабристских законов или '
+        'после трёх принятых законов Пестель станет канцлером', show_alert=True)
+
+# нажата кнопка, я Пестель, но что это
+@bot.callback_query_handler(func=lambda call: call.data == "Пестельв")
+def callback_greet(call):
+    bot.answer_callback_query(
+        call.id,
+        text='Выиграешь, если: на доске будет выложено шесть Декабристских законов или после '
+             'трёх принятых декабристких законов ты станешь канцлером.', show_alert=True)
+@bot.callback_query_handler(func=lambda call: call.data == "Пестельп")
+def callback_greet(call):
+    bot.answer_callback_query(
+        call.id,
+        text='Проиграешь, если: на доске будет выложено пять '
+             'Имперских законов или ты будешь убит.', show_alert=True)
 
 
 # нажата кнопка проверки игрока
@@ -247,7 +247,7 @@ def callback_greet(call):
 
 
 # нажата кнопка выбора карты канцлером
-@bot.callback_query_handler(func=lambda call: call.data in ['fascist', "liberal"])
+@bot.callback_query_handler(func=lambda call: call.data in ['decembrist', "imperial"])
 def callback_greet(call):
     global waiting_for_answer
 
@@ -263,7 +263,7 @@ def callback_greet(call):
 
 
 # нажата кнопка выбора карты для исключения президентом
-@bot.callback_query_handler(func=lambda call: len(call.data.split()) == 2 and call.data.split()[0] in ['fascist', 'liberal'])
+@bot.callback_query_handler(func=lambda call: len(call.data.split()) == 2 and call.data.split()[0] in ['decembrist', 'imperial'])
 def callback_greet(call):
     global waiting_for_answer, cards_to_choose_2
     user_id = call.message.chat.id
@@ -279,7 +279,7 @@ def callback_greet(call):
 
 
 # нажата что происходит у нас есть карты а дальше
-@bot.callback_query_handler(func=lambda call: call.data[2:] == 'оофашист')
+@bot.callback_query_handler(func=lambda call: call.data[2:] == 'оодекабрист')
 def callback_greet(call):
     if call.data[:2] == '1 ':
         bot.answer_callback_query(
@@ -421,51 +421,51 @@ def start_game(dict_of_group, president):
         # поставить карту на поле
         pole.add(waiting_for_answer)
 
-        onboard_liberal, onboard_fascist = pole.check()
-        print(onboard_liberal, onboard_fascist)
+        onboard_imperial, onboard_decembrist = pole.check()
+        print(onboard_imperial, onboard_decembrist)
 
         markup = telebot.types.InlineKeyboardMarkup(row_width=1)
-        btn1 = telebot.types.InlineKeyboardButton('1 фашистская',
-                                                  callback_data='1 оофашист')
-        btn2 = telebot.types.InlineKeyboardButton('2 фашистских',
-                                                  callback_data='2 оофашист')
-        btn3 = telebot.types.InlineKeyboardButton('3 фашистских',
-                                                  callback_data='3 оофашист')
-        btn4 = telebot.types.InlineKeyboardButton('4 фашистских',
-                                                  callback_data='4 оофашист')
-        btn5 = telebot.types.InlineKeyboardButton('5 фашистских',
-                                                  callback_data='5 оофашист')
+        btn1 = telebot.types.InlineKeyboardButton('1 декабристская',
+                                                  callback_data='1 оодекабрист')
+        btn2 = telebot.types.InlineKeyboardButton('2 декабристских',
+                                                  callback_data='2 оодекабрист')
+        btn3 = telebot.types.InlineKeyboardButton('3 декабристских',
+                                                  callback_data='3 оодекабрист')
+        btn4 = telebot.types.InlineKeyboardButton('4 декабристских',
+                                                  callback_data='4 оодекабрист')
+        btn5 = telebot.types.InlineKeyboardButton('5 декабристских',
+                                                  callback_data='5 оодекабрист')
 
         # Добавляем кнопки в клавиатуру
         markup.add(btn1, btn2, btn3, btn4, btn5)
         bot.send_message(dict_of_group['group_id'],
-                         f'Сейчас выложены {onboard_fascist} фашистких карт и {onboard_liberal} либеральных, '
+                         f'Сейчас выложены {onboard_decembrist} декабристских карт и {onboard_imperial} имперских, '
                          f'чтобы узнать, что это обозначает, нажимайте на нужную кнопку.', reply_markup=markup)
 
         # выполнение особого протокола в зависимости от количества карт на столе
-        if onboard_fascist > 3 and dict_of_group['id'][president] == 'gitler':
-            win(dict_of_group, 'fascist')
+        if onboard_decembrist > 3 and dict_of_group['id'][president] == 'pestel':
+            win(dict_of_group, 'decembrist')
             dict_of_group = {}
 
-        elif onboard_fascist == 2 and dict_of_group['last_card'] == 'fascist':
+        elif onboard_decembrist == 2 and dict_of_group['last_card'] == 'decembrist':
             proverka_igroka(dict_of_group, president)
 
-        elif onboard_fascist == 3 and dict_of_group['last_card'] == 'fascist':
+        elif onboard_decembrist == 3 and dict_of_group['last_card'] == 'decembrist':
             dict_of_group = vibor(dict_of_group, president)
 
-        elif (onboard_fascist == 4 or onboard_fascist == 5) and dict_of_group['last_card'] == 'fascist':
+        elif (onboard_decembrist == 4 or onboard_decembrist == 5) and dict_of_group['last_card'] == 'decembrist':
             died = liquidation(dict_of_group, president)
             print(died)
-            if died == 'gitler':
-                win(dict_of_group, 'liberal')
+            if died == 'pestel':
+                win(dict_of_group, 'imperial')
                 dict_of_group = {}
 
-        elif onboard_fascist == 6:
-            win(dict_of_group, 'fascist')
+        elif onboard_decembrist == 6:
+            win(dict_of_group, 'decembrist')
             dict_of_group = {}
 
-        elif onboard_liberal == 5:
-            win(dict_of_group, 'liberal')
+        elif onboard_imperial == 5:
+            win(dict_of_group, 'imperial')
             dict_of_group = {}
 
         bot.send_message(dict_of_group['group_id'],
@@ -597,24 +597,24 @@ class role_for_everyone:
 
     def roles_from_count(self):
         if self.count_of_players == 5:
-            self.roles = ['liberal', 'liberal', 'liberal', 'fascist', 'hitler']
+            self.roles = ['imperial', 'imperial', 'imperial', 'decembrist', 'pestel']
         elif self.count_of_players == 6:
-            self.roles = ['liberal', 'liberal', 'liberal', 'liberal', 'fascist', 'hitler']
+            self.roles = ['imperial', 'imperial', 'imperial', 'imperial', 'decembrist', 'pestel']
         elif self.count_of_players == 7:
-            self.roles = ['liberal', 'liberal', 'liberal', 'liberal', 'fascist', 'fascist', 'hitler']
+            self.roles = ['imperial', 'imperial', 'imperial', 'imperial', 'decembrist', 'decembrist', 'pestel']
         elif self.count_of_players == 8:
-            self.roles = ['liberal', 'liberal', 'liberal', 'liberal', 'liberal', 'fascist', 'fascist', 'hitler']
+            self.roles = ['imperial', 'imperial', 'imperial', 'imperial', 'imperial', 'decembrist', 'decembrist', 'pestel']
         elif self.count_of_players == 9:
-            self.roles = ['liberal', 'liberal', 'liberal', 'liberal', 'liberal', 'fascist', 'fascist',
-                          'fascist', 'hitler']
+            self.roles = ['imperial', 'imperial', 'imperial', 'imperial', 'imperial', 'decembrist', 'decembrist',
+                          'decembrist', 'pestel']
         elif self.count_of_players == 10:
-            self.roles = ['liberal', 'liberal', 'liberal', 'liberal', 'liberal', 'liberal', 'fascist',
-                          'fascist', 'fascist', 'hitler']
+            self.roles = ['imperial', 'imperial', 'imperial', 'imperial', 'imperial', 'imperial', 'decembrist',
+                          'decembrist', 'decembrist', 'pestel']
         # test
         elif self.count_of_players == 2:
-            self.roles = ['fascist', 'liberal']
+            self.roles = ['decembrist', 'imperial']
         elif self.count_of_players == 1:
-            self.roles = ['gitler']
+            self.roles = ['pestel']
         return self.roles
 
     def role_for_all(self):
@@ -629,7 +629,7 @@ class role_for_everyone:
 # Класс карточек законов
 class Cards:
     def __init__(self):
-        self.cards_in = ["fascist"] * 11 + ["liberal"] * 6  # карты в колоде
+        self.cards_in = ["decembrist"] * 11 + ["imperial"] * 6  # карты в колоде
         self.cards_out = []  # сюда надо складывать карты, которые откинули игроки
 
     # выкладка закона на стол
@@ -652,20 +652,20 @@ class Cards:
 
 
 class CardsOnBoard:
-    # два списка: либеральные карты на столе, фашистские карты на столе
+    # два списка: имперецьные карты на столе, декабристские карты на столе
     def __init__(self):
 
-        self.onboard_liberal = 0
-        self.onboard_fascist = 0
+        self.onboard_imperial = 0
+        self.onboard_decembrist = 0
 
     def add(self, card):
-        if card == 'fascist':
-            self.onboard_fascist += 1
+        if card == 'decembrist':
+            self.onboard_decembrist += 1
         else:
-            self.onboard_liberal += 1
+            self.onboard_imperial += 1
 
     def check(self):
-        return self.onboard_liberal, self.onboard_fascist
+        return self.onboard_imperial, self.onboard_decembrist
 
 
 if __name__ == "__main__":
